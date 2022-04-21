@@ -1,0 +1,407 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Smart-Agro",
+        "description": "Smart agro, a place where farmers and concumer meet",
+        "contact": {
+            "email": "support@smartagro.com.ng"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/auth/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User Register",
+                "description": "User Register here",
+                "operationId": "register",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "full_name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "full_name": {
+                                        "type": "text"
+                                    },
+                                    "email": {
+                                        "type": "text"
+                                    },
+                                    "role_id": {
+                                        "type": "integer"
+                                    },
+                                    "password": {
+                                        "type": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {
+                                "allOf": []
+                            },
+                            "example": {
+                                "full_name": "Jack Mau",
+                                "email": "testme@test.com",
+                                "role_id": "1",
+                                "password": "Test@123",
+                                "password_confirmation": "Test@123"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Register Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User Login",
+                "description": "Login User Here",
+                "operationId": "login",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "email"
+                                    },
+                                    "password": {
+                                        "type": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/forgot-password": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Forget Password",
+                "description": "forget password",
+                "operationId": "forgetPassword",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "email"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Resend link send successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/v1/api/add-farm": {
+            "post": {
+                "tags": [
+                    "Farms"
+                ],
+                "summary": "Store new farm",
+                "description": "Returns farm data",
+                "operationId": "storeFarm",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Farm"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FarmResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/v1/api/show-all-farms": {
+            "get": {
+                "tags": [
+                    "Farms"
+                ],
+                "summary": "Get list of farms",
+                "description": "Returns list of farms",
+                "operationId": "getFarmsList",
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "FarmProductResource": {
+                "title": "FarmProductResource",
+                "description": "Farm product resource",
+                "xml": {
+                    "name": "FarmProductResource"
+                }
+            },
+            "FarmResource": {
+                "title": "FarmResource",
+                "description": "Farm product resource",
+                "xml": {
+                    "name": "FarmProductResource"
+                }
+            },
+            "Farm": {
+                "title": "Farm model",
+                "description": "Farm model",
+                "properties": {
+                    "farmer_id": {
+                        "schema": "Farm",
+                        "type": "integer"
+                    },
+                    "farm_location": {
+                        "schema": "Farm",
+                        "type": "string"
+                    },
+                    "landscape": {
+                        "schema": "Farm",
+                        "type": "string"
+                    },
+                    "longitude": {
+                        "schema": "Farm",
+                        "type": "string"
+                    },
+                    "latitude": {
+                        "schema": "Farm",
+                        "type": "string"
+                    },
+                    "farm_image": {
+                        "schema": "Farm",
+                        "type": "string"
+                    },
+                    "farm_description": {
+                        "schema": "Farm",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "FarmProduct": {
+                "title": "FarmProduct model",
+                "description": "Farm product model",
+                "properties": {
+                    "farm_id": {
+                        "schema": "FarmProduct",
+                        "type": "integer"
+                    },
+                    "stock_id": {
+                        "schema": "FarmProduct",
+                        "type": "integer"
+                    },
+                    "product_name": {
+                        "schema": "FarmProduct",
+                        "type": "string"
+                    },
+                    "description": {
+                        "schema": "FarmProduct",
+                        "type": "string"
+                    },
+                    "price": {
+                        "schema": "FarmProduct",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "plant_date": {
+                        "schema": "FarmProduct",
+                        "type": "string"
+                    },
+                    "harvest_date": {
+                        "schema": "FarmProduct",
+                        "type": "string"
+                    },
+                    "product_image": {
+                        "schema": "FarmProduct",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User model",
+                "description": "User model",
+                "properties": {
+                    "role_id": {
+                        "schema": "User",
+                        "type": "integer"
+                    },
+                    "full_name": {
+                        "schema": "User",
+                        "type": "string"
+                    },
+                    "email": {
+                        "schema": "User",
+                        "type": "string"
+                    },
+                    "password": {
+                        "schema": "User",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "Bearer": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header",
+                "scheme": "Bearer"
+            },
+            "passport": {
+                "type": "oauth2",
+                "description": "Laravel passport oauth2 security.",
+                "in": "header",
+                "scheme": "https",
+                "flows": {
+                    "password": {
+                        "authorizationUrl": "http://localhost/oauth/authorize",
+                        "tokenUrl": "http://localhost/oauth/token",
+                        "refreshUrl": "http://localhost/token/refresh",
+                        "scopes": []
+                    }
+                }
+            }
+        }
+    }
+}
